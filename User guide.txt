@@ -1,0 +1,128 @@
+To run this program, you need to install LibreOffice.
+https://www.libreoffice.org/download/download/
+
+When opening the software for the first time, you will be notified about the document using macros. These have to be enabled in order for the program to function.
+
+By default the recipe editor will launch on startup. (Can be changed in settings)
+
+When you exit, you will see four sections on the left side: Tables, Queries, Forms and Reports
+
+The recipe editor is found under Forms -> Edit recipes. 
+
+You can enter the following data:
+- Name (has to be unique for each recipe)
+- Portion count (number, with one possible decimal place)
+- Time (free text)
+- Ingredients (free text, but the program will analyze each line, and calculate the nutrition value from them.)
+- Description (free text)
+- Pictures (one per line)
+
+To get the nutrition value of a recipe, you must enter each ingredient in Tables -> Ingredients, and the calculation takes place on the recipe's update/creation.
+The lines in the Ingredients text box should have the format:
+[amount] g [ingredient]
+Comments can be added afterwards, starting with a space and an opening parenthesis, and the program will disregard everything from there on.
+Example: 
+110 g egg (2 pieces)
+When an ingredient is found, the program will mark it with a * at the end of the line.
+The total amount of nutrition value will be divided by the number of portions.
+
+If a recipe's ingredient list is not changed, the program will not recalculate its nutrition values upon save. If you happen to add an ingredient in the Ingredients table, or modify an existing one, use the Recalculate button in the Settings form to get the new values, or just add a space at the end of any line in the recipe's ingredients list, and save the recipe.
+There is a reason I chose the program to behave like this: recalculation uses significant processing time, slowing down the program's other functions, and most of the time it wouldn't be necessary.
+
+Pictures:
+
+Can be typed in, or added via the "Add picture" button. Here you have the option to select multiple pictures, by holding down the Ctrl (to select each) or Shift (to select a range) keys upon clicking on them.
+The program will then add them to the end of the text in the field, or if the cursor is in the field, insert them at its position. If a selection was set, it will be replaced with the names of the new images.
+
+You can then rearrange them by either editing the text, or clicking on the Rearrange button (a red border will show up around the pictures), and dragging-dropping them.
+(The precision by which you need to match the new positions is set to 40 pixels. Can be changed by opening the source code, and giving another value to the "matchDistance" variable. [Tools -> Organize Macros -> LibreOffice Basic... -> Recipes v18.2.0.odb -> Standard -> Module5 -> InitSmallPic -> Edit -> [Line 88])
+By opening the right-click menu, you can also delete the picture, or make it primary. (Deleting means unregistering from the recipe. The pictures in the file system will remain.)
+Primary means, this is the picture that will show up when you run the List recipes program, and is marked by a * in the text.
+The Images textbox is immediately updated to reflect the changes, but they will only be permanent upon saving the form. Similarly, when you edit the text, the images will be updated upon leaving the field, or pressing Ctrl+S.
+When multiple instances of the same picture are found, the program will delete the extra lines. (If a star was set on one of them, it will not be lost.) Adding a picture that already exists in the list is likewise prevented.
+
+Clicking on a picture will enlarge it to full screen. Use the mouse or keyboard to navigate:
+Left-click (primary mouse button) or right arrow: Next
+Right-click or left arrow: Previous
+Esc: Close
+In Rearrange mode you can also use the Del key to delete the picture.
+You will notice a scrollbar on the right side, which is purposeless, just like text boxes have always-on scrollbars no matter how long the content is. If you know how to hide it (in the latter case, to make them appear dynamically), let me know.
+
+Before working with pictures, set their directory path in Forms -> Settings, search, replace and recalculate, or leave the fields empty, and place your pictures in the predefined folders in the program's directory.
+
+The program uses two sizes:
+222 × 125 px for the thumbnails, and big pictures corresponding to your screen resolution (1920 x 1080 px on a Full HD screen)
+To load the pictures fast, it is advisable to resize them accordingly, for example with Multiple Image Resizer .NET
+https://www.multipleimageresizer.net/download.aspx
+Image ratios other than 16:9 can be used too, only they will not fill the whole area of the screen/thumbnail, and they load a little slower.
+
+Change name button:
+When first clicked, it will open up a field where you can change the recipes name. It is not allowed to leave it empty or change it to a name that is already existing.
+Saving takes place by clicking either the Change name, the New recipe, or the Save buttons, or selecting another recipe from the list.
+
+You can also use Ctrl+S to save form contents. The Save button's disabled/enabled status will indicate whether changes have been made since the last save.
+
+Delete button:
+Can be used to delete an existing recipe, or when you are entering a new one.
+
+The List recipes program will list all recipes in the order set in Settings, search, replace and recalculate, which can be printed out, or saved as a pdf file.
+Note that it might take several minutes for the list to be generated.
+
+Additional settings 
+When you find nutrition values of an ingredient, they often use a different system than what you are used to in your country. 
+Some will regard fiber as carbohydrates, and some will not specify salt content, but sodium instead. 100 g salt contains 40 g sodium, but if there is sodium present in a food, it might not necessarily be in salt form.
+The program offers various settings to deal with these.
+Set the default behaviour at the "In Ingredients, fiber counts as carbohydrate", and "sodium contains sodium from salt" checkboxes, and add exceptions by entering the ingredient's description line by line. 
+If the match is set to "Part of text", you can write additional comments into the field without making the exception invalid.
+When you add up the nutrition for a recipe, you can use the same settings to control the behaviour, independently of how you defined the table.
+ 
+How do you know if a data source considers fiber as carbohydrate? Once you find something with high fiber content, if the numbers are for example:
+60 g carbs, 35 g fiber, 20 g fat, 10 g protein, per 100 g, then you just need to add up the numbers...
+
+Note: If you don't fill in the sodium value of an ingredient, but you chose "sodium contains sodium from salt", the program will disregard it, even if you set it as an exception.
+If you write 0 however, the program will run as you ordered, and you can get negative values upon calculation.
+The same applies to carbohydrates/fiber.
+
+To have a reminder of your applied settings, when you export the recipes with the List recipes program, you can write a header text.
+
+When searching for ingredients, the program can be set to strict match, plural -s or plural -es (or both).
+The rules go both ways. (For example, if "raisins" is written in the recipe, "raisin" in the ingredients table will be found if -s match is enabled, and vice versa)
+ 
+If you want to change an ingredient's name, but you have already listed it in some recipe, you don't need to go and search through them manually.
+The Search & replace... function is built for this purpose.
+When clicking on the button, a dialog will appear, where you can select the Ingredient's name, and correct it in the list, the recipes' ingredients field and the description. 
+
+The -s and -es matching options are used here too, as well as "retain plural/singular form".
+So if you change an ingredient from "egg" to "duck egg", but wrote it as "eggs" in the recipes, it will be replaced as "duck eggs".
+It goes the other way too. 
+
+Searching is not limited to ingredients, you can type in anything. Toggle this mode on by clicking the "free text search" option.
+All matching is case insensitive, but replaced words will retain their starting character's upper- or lowercase property.
+The program removes the starting and ending spaces of the search (and replace) term, but you can also perform an exact search using "".
+
+Clicking on the close button will save your search preferences - exiting the dialog with the x will not.
+
+There is an Export and import form, which will give you possibility to export all or individual tables, and - in case of Recipes and Ingredients - you can also choose which rows to save.
+Importing works the same way, just in reverse. You can choose to erase your existing tables, and replace it with the imported ones, or just add the new data. If there is already a recipe or an ingredient with the same name, you will be asked if you want to replace that row.
+
+The program comes containing my recipe collection, which do not use meat, refined flour or sugar. I eat fish, experiment with whole flours, and use coconut sugar or other natural sweeteners instead.
+You can look through them to see, if some of them are of your interest - or you can delete all, and start with a clean slate.
+Just open Settings, search, replace and recalculate, and use the buttons in the top right corner.
+
+LibreOffice - as many other program - is not perfect, and there is a possibility it will crash/freeze one day. When it does, you lose any change you made in the recipes while the form (or LibreOffice) was open, even if you saved them.
+To prevent this from happening, an autosave-recovery function was created. When a recipe in the form is saved (by one of the ways described above), the program exports it into a text file (autosave.txt), and at every startup of the LibreOffice document it compares its content with the database. If any difference is found, you will be asked if you want to use the file's data. After the check the file is deleted. This means, your modifications are saved for the whole session, LibreOffice is open.
+Deletions of recipes (using the forms) are also registered, as well as imported and recalculated recipes.
+If the program freezes, and you haven't saved recently, the best advice I have for you is to take a screenshot.
+
+Future updates:
+
+New feature requests are welcome, as well as bug reports. The Edit recipes program creates a log file on each run (can be turned off in settings), so in case of crash or malfunction send me the log before running the program again, or just rename it, so it will not be overwritten.
+
+The data is contained in the program file itself, so if you get an update, use the Export and import functions.
+
+Version numbering:
+(Year).(# of feature update).(# of bug fixes)
+
+Balint Fodor
+fodorbalint86@gmail.com
+2018 May 25.
